@@ -4,6 +4,7 @@ import matplotlib.image as mpimg
 import pickle
 import os
 import cv2
+from Line import Line
 #from moviepy.editor import VideoFileClip
 
 
@@ -107,8 +108,27 @@ def warp(img, M, flags=cv2.INTER_LINEAR):
 
     return warped
 
+def visualize_lanes(img, left_line, right_line):
+
+    left_plotx, left_ploty = left_line.get_lane_pixels()
+    right_plotx, right_ploty = right_line.get_lane_pixels()
+
+    if DEBUG:
+        img = np.dstack((img, img, img))*255
+        implot = plt.imshow(img)
+        plt.plot(left_plotx, left_ploty, color='yellow')
+        plt.plot(right_plotx, right_ploty, color='yellow')
+    return None
+
 for file in test_files:
     img = mpimg.imread(test_location + "/" + file)
-    img = undistort(img, mtx, dist)
-    img = thresholding(img)
-    img = warp(img, M)
+    undist = undistort(img, mtx, dist)
+    thresh = thresholding(undist)
+    warped = warp(thresh, M)
+    left_line = Line('left')
+    right_line = Line('right')
+    left_line.add_new_image(warped)
+    right_line.add_new_image(warped)
+    visualize_lanes(warped, left_line, right_line)
+    plt.savefig(test_location + "/lane_" + file)
+    plt.close()
