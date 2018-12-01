@@ -42,3 +42,7 @@ dist_pickle = {}
 dist_pickle["mtx"] = mtx
 dist_pickle["dist"] = dist
 pickle.dump(dist_pickle, open('camera_cal/calibration_pickle.p', 'wb'))
+
+# Test
+img = mpimg.imread('camera_cal/calibration5.jpg')
+mpimg.imsave('camera_cal/test_calibration.jpg', cv2.undistort(img, mtx, dist, None, mtx))

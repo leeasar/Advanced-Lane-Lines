@@ -1,7 +1,12 @@
 import numpy as np
 import cv2
 
+""" This file includes a set of thresholding functions.
+"""
+
 def hls_select(img, channel, thresh=(0, 255)):
+    """ Creates a binary map of the S (saturation) channel of the input image.
+    """
     hls = cv2.cvtColor(img, cv2.COLOR_RGB2HLS)
     s_channel = hls[:,:,channel]
     binary_output = np.zeros_like(s_channel)
@@ -9,12 +14,17 @@ def hls_select(img, channel, thresh=(0, 255)):
     return binary_output
 
 def rgb_select(img, channel, thresh=(0, 255)):
+    """ Creates a binary map of the selected R, G, or B channel of the input image.
+    """
     color_channel = img[:,:,channel]
     binary_output = np.zeros_like(color_channel)
     binary_output[(color_channel > thresh[0]) & (color_channel <= thresh[1])] = 1
     return binary_output
 
 def sobel_thresh(img, direction='x', thresh=(0, 255)):
+    """ Creates a horizontal or vertical sobel threshold binary map
+    from the input image.
+    """
     gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
 
     if direction == 'y':
@@ -29,6 +39,8 @@ def sobel_thresh(img, direction='x', thresh=(0, 255)):
     return sxbinary
 
 def sobel_mag_thresh(img, sobel_kernel=3, mag_thresh=(0, 255)):
+    """ Creates a sobel magnitude threshold binary map from the input image.
+    """
     gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
     sobelx = cv2.Sobel(gray, cv2.CV_64F, 1, 0)
     sobely = cv2.Sobel(gray, cv2.CV_64F, 0, 1)
@@ -39,6 +51,8 @@ def sobel_mag_thresh(img, sobel_kernel=3, mag_thresh=(0, 255)):
     return binary_output
 
 def sobel_dir_thresh(img, sobel_kernel=3, thresh=(0, np.pi/2)):
+    """ Creates a directional sobel threshold binary map from tne input image.
+    """
     gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
     sobelx = cv2.Sobel(gray, cv2.CV_64F, 1, 0, ksize=sobel_kernel)
     sobely = cv2.Sobel(gray, cv2.CV_64F, 0, 1, ksize=sobel_kernel)
@@ -48,6 +62,8 @@ def sobel_dir_thresh(img, sobel_kernel=3, thresh=(0, np.pi/2)):
     return binary_output
 
 def canny_thresh(img, thresh=(0,255)):
+    """ Creates a binary map that shows the Canny thresholds of the input image.
+    """
     gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
     canny = cv2.Canny(gray, thresh[0], thresh[1])
     canny = np.uint8(255*canny)
