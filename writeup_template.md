@@ -133,7 +133,7 @@ For those images in which thresholding correctly highlighted the lane lines (and
 [image-1]:	./camera_cal/calibration5.jpg "Image before calibrating"
 [image-2]:	./camera_cal/test_calibration.jpg "Testing calibration"
 [image-3]:	./test_images/test5.jpg "Original road image"
-[image-4]:	./toutput_images/undist_test5.jpg "Undistortion applied"
+[image-4]:	./output_images/undist_test5.jpg "Undistortion applied"
 [image-5]:	./output_images/thresh_test5.jpg "Thresholding applied"
 [image-6]:	./output_images/warp_test5.jpg "Warping applied"
 [image-7]:	./output_images/final_test5.jpg "Road info visualization applied"
